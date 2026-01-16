@@ -14,7 +14,7 @@ class Chat(Base):
     created_at: Mapped[datetime] = mapped_column(default=datetime.now)
 
     message: Mapped[list["Message"]] = relationship(
-        back_populates="chat", lazy="selectin", cascade="all, delete"
+        back_populates="chat", lazy="joined", cascade="all, delete-orphan"
     )
 
 
@@ -26,4 +26,4 @@ class Message(Base):
     text: Mapped[str] = mapped_column(Text, nullable=False)
     created_at: Mapped[datetime] = mapped_column(default=datetime.now)
 
-    chat: Mapped["Chat"] = relationship(back_populates="message", lazy="joined")
+    chat: Mapped["Chat"] = relationship(back_populates="message")
