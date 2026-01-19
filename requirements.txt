@@ -4,6 +4,8 @@ sqlalchemy[asyncio]==2.0.45
 asyncpg==0.31.0
 alembic==1.18.1
 pydantic-settings==2.1.0
+python-multipart==0.0.21
 httpx==0.26.0
 pytest==7.4.4
 pytest-asyncio==0.23.3
+aiosqlite==0.22.1
