@@ -12,7 +12,7 @@ from app.schemas import (
     MessageCreate,
 )
 
-router = APIRouter(prefix="/chats")
+router = APIRouter(prefix="/chats", tags=["chats"])
 
 
 @router.get("/{chat_id}", response_model=ChatWithMessagesResponse)
