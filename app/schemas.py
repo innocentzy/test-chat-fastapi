@@ -24,7 +24,6 @@ class ChatResponse(ChatBase):
 
 
 class MessageBase(BaseModel):
-    chat_id: int
     text: str = Field(..., min_length=1, max_length=5000)
 
 
@@ -51,4 +50,4 @@ class MessageListResponse(BaseModel):
 
 
 class ChatWithMessagesResponse(ChatResponse):
-    messages = list[MessageListResponse] = []
+    messages: list[MessageListResponse] = []

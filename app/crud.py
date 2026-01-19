@@ -1,6 +1,6 @@
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.orm import joinedload
+from sqlalchemy.orm import selectinload
 
 
 from app.models import Chat, Message
@@ -8,13 +8,21 @@ from app.schemas import ChatCreate, MessageCreate
 
 
 async def get_chat(db: AsyncSession, chat_id: int, limit: int = 20) -> Chat | None:
-    result = await db.execute(
-        select(Chat)
-        .options(joinedload(Chat.message))
-        .where(Chat.id == chat_id)
+    chat_result = await db.execute(select(Chat).where(Chat.id == chat_id))
+    chat = chat_result.scalar_one_or_none()
+
+    if not chat:
+        return None
+
+    messages_result = await db.execute(
+        select(Message)
+        .where(Message.chat_id == chat_id)
+        .order_by(Message.created_at.desc())
         .limit(limit)
     )
-    return result.scalar_one_or_none()
+    chat.messages = list(messages_result.scalars().all())
+
+    return chat
 
 
 async def create_chat(db: AsyncSession, chat: ChatCreate) -> Chat:
