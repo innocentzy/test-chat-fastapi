@@ -5,7 +5,6 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 class ChatBase(BaseModel):
     title: str = Field(..., min_length=1, max_length=200)
-    created_at: datetime
 
     @field_validator("title")
     @classmethod
@@ -21,12 +20,12 @@ class ChatResponse(ChatBase):
     model_config = ConfigDict(from_attributes=True)
 
     id: int
+    created_at: datetime
 
 
 class MessageBase(BaseModel):
     chat_id: int
     text: str = Field(..., min_length=1, max_length=5000)
-    created_at: datetime
 
 
 class MessageCreate(MessageBase):

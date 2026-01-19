@@ -13,7 +13,7 @@ class Chat(Base):
     title: Mapped[str] = mapped_column(String, nullable=False)
     created_at: Mapped[datetime] = mapped_column(default=datetime.now)
 
-    message: Mapped[list["Message"]] = relationship(
+    messages: Mapped[list["Message"]] = relationship(
         back_populates="chat", lazy="joined", cascade="all, delete-orphan"
     )
 
